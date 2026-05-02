@@ -6,7 +6,7 @@ public abstract class GravityObject : MonoBehaviour
     protected CharacterController controller;
 
     [Header("Gravity Settings")]
-    public float gravity = -9.81f;
+    public float gravity = -0.981f;
     protected Vector3 velocity;
 
     protected virtual void Start()
@@ -21,12 +21,8 @@ public abstract class GravityObject : MonoBehaviour
 
     protected void ApplyGravity()
     {
-        if (controller.isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f; // stick to ground
-        }
-
-        velocity.y += gravity * Time.deltaTime;
+        if (!controller.isGrounded && velocity.y <= 0)
+            velocity.y = (velocity.y >= gravity) ? gravity : velocity.y + gravity;
         controller.Move(velocity * Time.deltaTime);
     }
 }

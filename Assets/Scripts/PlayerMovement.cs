@@ -1,17 +1,18 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : GravityObject
+public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float jumpPower = 10f;
     public Transform cameraTransform;
 
     private float xRotation = 0f;
     public float mouseSensitivity = 0.1f;
+    protected CharacterController controller;
 
-    protected override void Update()
+    protected void Update()
     {
-        base.Update(); // 👈 applies gravity
 
         HandleMovement();
         HandleMouseLook();
@@ -19,7 +20,7 @@ public class PlayerMovement : GravityObject
 
     void HandleMovement()
     {
-        Vector2 input = Vector2.zero;
+        Vector3 input = Vector3.zero;
 
         if (Keyboard.current != null)
         {
@@ -27,10 +28,11 @@ public class PlayerMovement : GravityObject
             if (Keyboard.current.sKey.isPressed) input.y -= 1;
             if (Keyboard.current.aKey.isPressed) input.x -= 1;
             if (Keyboard.current.dKey.isPressed) input.x += 1;
+            if (Keyboard.current.spaceKey.isPressed && controller.isGrounded) input.z += jumpPower;
         }
 
-        Vector3 move = transform.right * input.x + transform.forward * input.y;
-        controller.Move(move * moveSpeed * Time.deltaTime);
+        Vector3 move = (transform.right * input.x + transform.forward * input.y) * moveSpeed + transform.up * input.z;
+        controller.Move(move * Time.deltaTime);
     }
 
     void HandleMouseLook()

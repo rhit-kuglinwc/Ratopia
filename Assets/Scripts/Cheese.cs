@@ -1,12 +1,11 @@
 using UnityEngine;
 
-public class Cheese : GravityObject
+[RequireComponent(typeof(Renderer))]
+public class Cheese : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-   protected override void Start()
+   protected void Start()
     {
-
-        base.Start();
         Renderer rend = GetComponent<Renderer>();
 
         rend.material.color = new Color(

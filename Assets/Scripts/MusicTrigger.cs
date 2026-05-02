@@ -8,7 +8,7 @@ public class MusicTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            parentMusicPlayer.SetPlayerInRange(true);
+            // parentMusicPlayer.SetPlayerInRange(true);
         }
     }
 
@@ -16,7 +16,7 @@ public class MusicTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            parentMusicPlayer.SetPlayerInRange(false);
+            // parentMusicPlayer.SetPlayerInRange(false);
         }
     }
 }

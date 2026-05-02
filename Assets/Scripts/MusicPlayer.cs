@@ -6,9 +6,6 @@ public class MusicPlayer : MonoBehaviour
 {
     private AudioSource audioSource;
 
-    private bool playerInRange = false;
-    private bool isHolding = false;
-
     [Header("Fade Settings")]
     public float fadeSpeed = 2f;
 
@@ -23,23 +20,16 @@ public class MusicPlayer : MonoBehaviour
         audioSource.volume = 0f;
     }
 
-    void Update()
+    void Play()
     {
-        HandleInput();
+        if (!audioSource.isPlaying)
+            audioSource.Play();
         HandleAudio();
     }
 
-    void HandleInput()
+    void Stop()
     {
-        if (Keyboard.current == null) return;
-
-        isHolding = playerInRange && Keyboard.current.qKey.isPressed;
-        targetVolume = isHolding ? 1f : 0f;
-
-        if (isHolding && !audioSource.isPlaying)
-        {
-            audioSource.Play();
-        }
+        audioSource.Pause();
     }
 
     void HandleAudio()
@@ -50,15 +40,9 @@ public class MusicPlayer : MonoBehaviour
             fadeSpeed * Time.deltaTime
         );
 
-        if (audioSource.volume <= 0.01f && !isHolding && audioSource.isPlaying)
+        if (audioSource.volume <= 0.01f && audioSource.isPlaying)
         {
             audioSource.Pause();
         }
-    }
-
-    // 👇 Called by child trigger
-    public void SetPlayerInRange(bool value)
-    {
-        playerInRange = value;
     }
 }
