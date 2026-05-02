@@ -10,15 +10,15 @@ public class PlayerController : MonoBehaviour
     public Transform cameraTransform;
     private float xRotation = 0f;
     public float mouseSensitivity = 0.1f;
-    public float smellRad = 30f;
-    public LayerMask smellLayer;
+
+    void Start(){
+        Debug.Log(transform.childCount);   
+    }
 
     // Update is called once per frame
     void FixedUpdate(){
         HandleMouseLook();
         HandleMovement();
-        if(Keyboard.current.qKey.isPressed)
-            HandleSmell();
     }
 
     void HandleMouseLook()
@@ -46,14 +46,6 @@ public class PlayerController : MonoBehaviour
             (Keyboard.current.spaceKey.isPressed) ? 1 : 0,
             Keyboard.current.wKey.isPressed ? 1 : Keyboard.current.sKey.isPressed ? -1 : 0).normalized;
         rigid.MovePosition(rigid.position + moveSpeed * Time.deltaTime * transform.TransformDirection(moveDir));
-    }
-
-    private void HandleSmell()
-    {
-        Collider[] smells = new Collider[10];
-        int amount = Physics.OverlapSphereNonAlloc(transform.position, smellRad, smells, smellLayer);
-         foreach (Collider smell in smells){
-         }
     }
 
     /*

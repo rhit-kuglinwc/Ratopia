@@ -11,6 +11,8 @@ public class MusicPlayer : MonoBehaviour
 
     private float targetVolume;
 
+    private bool play = false;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -20,29 +22,24 @@ public class MusicPlayer : MonoBehaviour
         audioSource.volume = 0f;
     }
 
-    void Play()
-    {
-        if (!audioSource.isPlaying)
-            audioSource.Play();
-        HandleAudio();
-    }
-
-    void Stop()
-    {
-        audioSource.Pause();
-    }
-
-    void HandleAudio()
-    {
+    void Update(){
+        if(play){
+            targetVolume = 1f;
+            if (!audioSource.isPlaying)
+                audioSource.Play();
+        }else{
+            targetVolume = 0f;
+            if(audioSource.volume <= 0.01f)
+                audioSource.Pause();
+        }
         audioSource.volume = Mathf.MoveTowards(
             audioSource.volume,
             targetVolume,
             fadeSpeed * Time.deltaTime
         );
+    }
 
-        if (audioSource.volume <= 0.01f && audioSource.isPlaying)
-        {
-            audioSource.Pause();
-        }
+    public void setPlay(bool to){
+        play = to;
     }
 }

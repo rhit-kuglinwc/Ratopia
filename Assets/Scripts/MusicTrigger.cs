@@ -1,22 +1,19 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MusicTrigger : MonoBehaviour
 {
     public MusicPlayer parentMusicPlayer;
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            // parentMusicPlayer.SetPlayerInRange(true);
-        }
+        if (other.TryGetComponent<MusicPlayer>(out MusicPlayer music))
+            music.setPlay(Keyboard.current.qKey.isPressed);
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            // parentMusicPlayer.SetPlayerInRange(false);
-        }
+        if (other.TryGetComponent<MusicPlayer>(out MusicPlayer music))
+            music.setPlay(false);
     }
 }
