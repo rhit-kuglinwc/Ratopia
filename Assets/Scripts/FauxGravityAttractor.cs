@@ -37,7 +37,8 @@ public class FauxGravityAttractor : MonoBehaviour
 
         float forceM = g * (mass * rigid.mass) / (dis * dis);
         Vector3 force = gravityDown * forceM;
-        Mathf.
+        // if (force.magnitude < 0.001f)
+        //     force = Vector3.zero;
         rigid.AddForce(force);
 
         Quaternion targetRotation = Quaternion.FromToRotation(bodyUp, -gravityDown) * body.rotation;
