@@ -21,26 +21,28 @@ public class FauxGravityAttractor : MonoBehaviour
     }
     void Start()
     {
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         GetComponent<Rigidbody>().useGravity = false;
         mass = GetComponent<Rigidbody>().mass;
     }
 
-    public void Attract(Transform body, Rigidbody rigid)
+    public Vector3 Attract(Transform body, Rigidbody rigid)
     {
         Vector3 direction = body.position - transform.position;
         float dis = direction.magnitude;
         Vector3 gravityDown = -direction.normalized;
         Vector3 bodyUp = body.up;
         float g = 100f;
-        if (dis >= -0.0001f && dis <= 0.0001f) return;
+        if (dis >= -0.0001f && dis <= 0.0001f) return Vector3.zero;
 
         float forceM = g * (mass * rigid.mass) / (dis * dis);
-        rigid.AddForce(gravityDown * forceM);
+        Vector3 force = gravityDown * forceM;
+        Mathf.
+        rigid.AddForce(force);
 
         Quaternion targetRotation = Quaternion.FromToRotation(bodyUp, -gravityDown) * body.rotation;
         body.rotation = Quaternion.Slerp(body.rotation, targetRotation, 50 * Time.deltaTime);
+        return force;
     }
 
     public static FauxGravityAttractor FindClosestAttractor(Vector3 pos)

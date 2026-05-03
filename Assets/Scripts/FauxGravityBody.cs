@@ -18,7 +18,9 @@ public class FauxGravityBody : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        attractor.Attract(myTransform, GetComponent<Rigidbody>());
+        Vector3 force = attractor.Attract(myTransform, GetComponent<Rigidbody>());
+        
+        Debug.Log(force);
     }
     
 }

@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 15;
+    public float jumpPower = 5f;
     private Vector3 moveDir;
     public Transform cameraTransform;
     private float xRotation = 0f;
@@ -43,44 +44,8 @@ public class PlayerController : MonoBehaviour
         Rigidbody rigid = GetComponent<Rigidbody>();
         moveDir = new Vector3(
             Keyboard.current.dKey.isPressed ? 1 : Keyboard.current.aKey.isPressed ? -1 : 0,
-            (Keyboard.current.spaceKey.isPressed) ? 1 : 0,
+            (Keyboard.current.spaceKey.isPressed) ? jumpPower : 0,
             Keyboard.current.wKey.isPressed ? 1 : Keyboard.current.sKey.isPressed ? -1 : 0).normalized;
         rigid.MovePosition(rigid.position + moveSpeed * Time.deltaTime * transform.TransformDirection(moveDir));
     }
-
-    /*
-    public static int InRadius(Vector3 pos, float radius, out List<T> results, bool findOnlyEnabled = true)
-    {
-        Collider[] colliders = Physics.OverlapSphere(pos, radius);
-
-        results = new List<T>();
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].TryGetComponent(out T component))
-            {
-                if (findOnlyEnabled)
-                {
-                    Behaviour behaviour = component as Behaviour;
-
-                    if (behaviour)
-                    {
-                        if (behaviour.enabled)
-                            results.Add(component);
-                    }
-                    else
-                    {
-                        findOnlyEnabled = false;
-                        results.Add(component);
-                    }
-                }
-                else
-                {
-                    results.Add(component);
-                }
-            }
-        }
-
-        return results.Count;
-    }
-    */
 }
