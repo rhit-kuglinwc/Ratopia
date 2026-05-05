@@ -3,17 +3,17 @@ using UnityEngine.InputSystem;
 
 public class MusicTrigger : MonoBehaviour
 {
-    public MusicPlayer parentMusicPlayer;
+    public float volumeMult = 1;
 
     void OnTriggerStay(Collider other)
     {
         if (other.TryGetComponent<MusicPlayer>(out MusicPlayer music))
-            music.setPlay(Keyboard.current.qKey.isPressed);
+            music.SetPlay(Keyboard.current.qKey.isPressed, volumeMult);
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent<MusicPlayer>(out MusicPlayer music))
-            music.setPlay(false);
+            music.SetPlay(false, 0);
     }
 }
