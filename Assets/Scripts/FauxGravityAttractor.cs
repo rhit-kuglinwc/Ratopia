@@ -32,8 +32,8 @@ public class FauxGravityAttractor : MonoBehaviour
         float dis = direction.magnitude;
         Vector3 gravityDown = -direction.normalized;
         Vector3 bodyUp = body.up;
-        float g = 100f;
-        if (dis >= -0.0001f && dis <= 0.0001f) return Vector3.zero;
+        float g = 0.01f;
+        if (dis <= 0.0001f) return Vector3.zero;
 
         float forceM = g * (mass * rigid.mass) / (dis * dis);
         Vector3 force = gravityDown * forceM;
