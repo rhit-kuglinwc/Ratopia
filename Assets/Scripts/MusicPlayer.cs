@@ -12,6 +12,7 @@ public class MusicPlayer : MonoBehaviour
     private float targetVolume;
 
     private bool play = false;
+    private float volMult;
 
     void Start()
     {
@@ -24,7 +25,7 @@ public class MusicPlayer : MonoBehaviour
 
     void Update(){
         if(play){
-            targetVolume = 1f;
+            targetVolume = 1f * volMult;
             if (!audioSource.isPlaying)
                 audioSource.Play();
         }else{
@@ -39,7 +40,8 @@ public class MusicPlayer : MonoBehaviour
         );
     }
 
-    public void setPlay(bool to){
+    public void SetPlay(bool to, float volumeMult){
         play = to;
+        volMult = volumeMult;
     }
 }
