@@ -8,12 +8,12 @@ public class MusicTrigger : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if (other.TryGetComponent<MusicPlayer>(out MusicPlayer music))
-            music.SetPlay(Keyboard.current.qKey.isPressed, 1);
+            music.SetPlay(Keyboard.current.qKey.isPressed);
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent<MusicPlayer>(out MusicPlayer music))
-            music.SetPlay(false, 0);
+            music.SetPlay(false);
     }
 }

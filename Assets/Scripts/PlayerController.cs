@@ -5,16 +5,16 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed;
+    public float sprintPower = 50f;
     public float jumpPower = 5f;
-    private Vector3 moveDir;
     public Transform cameraTransform;
     private float xRotation = 0f;
     public float mouseSensitivity = 0.1f;
     private bool sprintToggled = false;
 
     // Update is called once per frame
-    void FixedUpdate(){
+    void FixedUpdate()
+    {
         HandleMouseLook();
         HandleMovement();
     }
@@ -39,14 +39,21 @@ public class PlayerController : MonoBehaviour
     private void HandleMovement()
     {
         Rigidbody rigid = GetComponent<Rigidbody>();
-        moveDir = new Vector3(
-            Keyboard.current.dKey.isPressed ? 1 : Keyboard.current.aKey.isPressed ? -1 : 0,
-            Keyboard.current.spaceKey.isPressed ? jumpPower : 0,
-            Keyboard.current.wKey.isPressed ? 1 : Keyboard.current.sKey.isPressed ? -1 : 0).normalized;
+        Vector3 moveSpeed = Keyboard.current.leftShiftKey.isPressed
+                    ? new Vector3(sprintPower, 1, sprintPower)
+                    : new Vector3(15, 1, 15);
 
-        sprintToggled = Keyboard.current.leftShiftKey.isPressed ? !sprintToggled : sprintToggled;
+        Vector3 moveDir = new Vector3(
+                    Keyboard.current.dKey.isPressed ? 1 : Keyboard.current.aKey.isPressed ? -1 : 0,
+                    Keyboard.current.spaceKey.isPressed ? jumpPower : 0,
+                    Keyboard.current.wKey.isPressed ? 1 : Keyboard.current.sKey.isPressed ? -1 : 0).normalized;
+        if (Keyboard.current.qKey.isPressed)
+            Vector3.Scale(moveDir, moveSpeed);
+        else
+            Vector3.Scale(moveDir, moveDir);
+
+        // sprintToggled = Keyboard.current.leftShiftKey.isPressed ? !sprintToggled : sprintToggled;
         // moveSpeed = sprintToggled ? 50 : 15;
-        moveSpeed = Keyboard.current.leftShiftKey.isPressed ? 50 : 15;
-        rigid.MovePosition(rigid.position + moveSpeed * Time.deltaTime * transform.TransformDirection(moveDir));
+        rigid.MovePosition(rigid.position + Time.deltaTime * transform.TransformDirection(moveDir));
     }
 }

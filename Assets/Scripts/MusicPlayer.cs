@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(AudioSource))]
 public class MusicPlayer : MonoBehaviour
 {
+    // Sound stuff
     private AudioSource audioSource;
 
     [Header("Fade Settings")]
@@ -12,7 +13,11 @@ public class MusicPlayer : MonoBehaviour
     private float targetVolume;
 
     private bool play = false;
-    private float volMult;
+
+    // Color stuff
+     public Color smellColor = new(1f, 0.55f, 0.15f, 1f);
+    public float smellRange = 12f;
+    public float smellStrength = 1f;
 
     void Start()
     {
@@ -25,7 +30,7 @@ public class MusicPlayer : MonoBehaviour
 
     void Update(){
         if(play){
-            targetVolume = 1f * volMult;
+            targetVolume = 1f;
             if (!audioSource.isPlaying)
                 audioSource.Play();
         }else{
@@ -40,8 +45,7 @@ public class MusicPlayer : MonoBehaviour
         );
     }
 
-    public void SetPlay(bool to, float volumeMult){
+    public void SetPlay(bool to){
         play = to;
-        volMult = volumeMult;
     }
 }

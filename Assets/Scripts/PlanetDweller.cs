@@ -5,9 +5,7 @@ public class PlanetDweller : MonoBehaviour
 {
     public float moveSpeed = 3f;
     public float directionChangeTime = 3f;
-
     private Rigidbody rb;
-
     private Vector3 moveDirection;
     private float timer;
 
@@ -31,7 +29,6 @@ public class PlanetDweller : MonoBehaviour
 
         rb.MovePosition(rb.position + movement * Time.fixedDeltaTime);
 
-        // Optional: face movement direction
         if (moveDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
